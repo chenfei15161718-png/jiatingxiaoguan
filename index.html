@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 深夜家庭小馆 - 微信极速版</title>
+    <title>🏠家庭小馆</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
@@ -91,7 +91,7 @@
                     <span class="font-bold text-lg"><span x-text="cart.length"></span> 道菜</span>
                 </div>
                 <button @click="submitOrder" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 px-6 rounded-full transition shadow-lg btn-active text-sm">
-                    微信下单 🚀
+                   下单 🚀
                 </button>
             </div>
         </div>
@@ -101,8 +101,8 @@
                 
                 <div x-show="orderSubmitted">
                     <div class="mb-6 text-6xl animate-bounce">✅</div>
-                    <h3 class="text-2xl font-bold mb-2 text-gray-800">通知已发！</h3>
-                    <p class="text-gray-500 mb-6 text-sm">请查看你的微信消息。</p>
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">已下单！</h3>
+                    <p class="text-gray-500 mb-6 text-sm">已送达厨房。</p>
                 </div>
 
                 <div x-show="!orderSubmitted" class="text-left bg-green-50 p-4 rounded-2xl text-sm text-gray-700 mb-6 max-h-60 overflow-y-auto border border-green-100 hide-scrollbar">
@@ -186,7 +186,7 @@
                         <p style="font-size:12px;color:#666;">📅 时间：${date}</p>
                         <hr style="border:none;border-top:1px dashed #ccc;margin:10px 0;">
                         <p style="font-size:16px;font-weight:bold;">${orderList}</p>
-                        <p style="font-size:12px;color:#999;margin-top:20px;">来自：GitHub 网页版</p>
+                        <p style="font-size:12px;color:#999;margin-top:20px;">来自：我的朋友们</p>
                     `;
 
                     // 发送 POST 请求
@@ -229,3 +229,4 @@
     </script>
 </body>
 </html>
+
