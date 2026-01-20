@@ -132,8 +132,8 @@
             return {
                 loading: false, errorMsg: '', showModal: false, orderSubmitted: false, sending: false, cart: [],
                 
-                // GitHub 数据源
-                dataUrl: 'https://cdn.jsdelivr.net/gh/chenfei15161718-png/jiatingxiaoguan@main/menu.json', 
+                // 🔴 关键修改：不再使用 CDN，直接读取同目录下的 menu.json
+                dataUrl: './menu.json', 
                 
                 categoryMap: {
                     'meat': { title: '🥩 招牌硬菜', colorClass: 'border-orange-500 text-orange-800', btnBgClass: 'bg-orange-100 text-orange-600 hover:bg-orange-200' },
