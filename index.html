@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 深夜家庭小馆 - 钉钉点单版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Noto Serif SC', serif; background-color: #fdf6e3; color: #2c3e50; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .btn-active:active { transform: scale(0.95); transition: transform 0.1s; }
+        .img-placeholder { background-color: #f3f4f6; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="pb-32">
+
+    <div x-data="orderSystem()" x-init="init()" class="max-w-md mx-auto min-h-screen bg-[#f8f4e6] relative shadow-2xl">
+        
+        <header class="p-6 bg-white rounded-b-3xl shadow-sm sticky top-0 z-20">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 tracking-wide">👨‍🍳 欢迎光临我的厨房</h1>
+                    <p class="text-xs text-gray-500 mt-1">今天不想做饭，只想做你的大厨</p>
+                </div>
+                <div x-show="loading" class="text-orange-500 text-sm font-bold animate-pulse">读取菜单...</div>
+            </div>
+        </header>
+
+        <main class="p-4 space-y-8">
+            <div x-show="errorMsg" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" x-text="errorMsg" style="display: none;"></div>
+
+            <template x-for="(categoryData, catKey) in categoryMap" :key="catKey">
+               <div x-show="catKey !== 'drink' && menu.some(i => i.category === catKey)" x-transition>
+                   <h2 class="text-xl font-bold mb-4 pl-3 border-l-4 flex items-center justify-between" :class="categoryData.colorClass">
+                       <span x-text="categoryData.title"></span>
+                   </h2>
+                   <div class="grid grid-cols-1 gap-4">
+                       <template x-for="item in menu.filter(i => i.category === catKey)" :key="item.id">
+                           <div class="bg-white p-3 rounded-2xl card-shadow flex items-center gap-4 relative overflow-hidden border border-transparent transition-all duration-300" :class="{'!border-red-200 !bg-red-50/50': item.special}">
+                               <div class="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden img-placeholder relative shadow-inner">
+                                   <span x-show="item.special" class="absolute top-0 right-0 bg-red-500 text-white text-[10px] px-2 py-1 rounded-bl-lg font-bold z-10 shadow-sm">慎点</span>
+                                   <img :src="item.image" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Food'">
+                               </div>
+                               <div class="flex-1 min-w-0 py-1 flex flex-col justify-between h-24">
+                                   <div>
+                                       <h3 class="font-bold text-lg truncate text-gray-800" x-text="item.name"></h3>
+                                       <p class="text-xs text-gray-500 mt-1 leading-relaxed line-clamp-2" x-text="item.desc || '暂无介绍'"></p>
+                                   </div>
+                                   <div class="flex justify-end">
+                                       <button @click="addToCart(item)" class="w-8 h-8 rounded-full flex items-center justify-center btn-active font-bold text-lg shadow-sm transition-colors" :class="categoryData.btnBgClass">+</button>
+                                   </div>
+                               </div>
+                           </div>
+                       </template>
+                   </div>
+               </div>
+            </template>
+
+            <div x-show="menu.some(i => i.category === 'drink')" x-transition>
+                <h2 class="text-xl font-bold mb-4 pl-3 border-l-4 border-blue-500 text-blue-800">🍺 微醺时刻</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <template x-for="item in menu.filter(i => i.category === 'drink')" :key="item.id">
+                        <div class="bg-white rounded-2xl card-shadow overflow-hidden relative h-48 group">
+                             <div class="h-full w-full img-placeholder">
+                                <img :src="item.image" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Drink'">
+                             </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 p-3 w-full">
+                                <h3 class="font-bold text-white text-md leading-tight" x-text="item.name"></h3>
+                                <p class="text-[10px] text-gray-300 truncate mt-1" x-text="item.desc"></p>
+                            </div>
+                            <button @click="addToCart(item)" class="absolute bottom-2 right-2 w-8 h-8 rounded-full bg-white/90 text-blue-600 flex items-center justify-center btn-active font-bold text-lg shadow-md backdrop-blur-sm z-10">+</button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            
+            <div x-show="!loading && menu.length === 0 && !errorMsg" class="text-center py-10 text-gray-400">
+                <p>菜单空空如也...</p>
+            </div>
+        </main>
+
+        <div x-show="cart.length > 0" x-transition class="fixed bottom-8 left-0 right-0 px-6 flex justify-center z-30">
+            <div class="bg-[#1a1a1a] text-white w-full max-w-md rounded-full shadow-2xl p-3 pl-6 flex justify-between items-center border border-gray-700">
+                <div class="flex flex-col cursor-pointer" @click="showModal = true">
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wider">当前已选</span>
+                    <span class="font-bold text-lg"><span x-text="cart.length"></span> 道菜</span>
+                </div>
+                <button @click="submitOrder" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-full transition shadow-lg btn-active text-sm">
+                    钉钉下单 🚀
+                </button>
+            </div>
+        </div>
+
+        <div x-show="showModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" style="display: none;" x-transition.opacity>
+            <div @click.outside="!sending && (showModal = false)" class="bg-white rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl relative overflow-hidden">
+                
+                <div x-show="orderSubmitted">
+                    <div class="mb-6 text-6xl animate-bounce">🤖</div>
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">钉钉通知已发！</h3>
+                    <p class="text-gray-500 mb-6 text-sm">请查看群聊消息。</p>
+                </div>
+
+                <div x-show="!orderSubmitted" class="text-left bg-blue-50 p-4 rounded-2xl text-sm text-gray-700 mb-6 max-h-60 overflow-y-auto border border-blue-100 hide-scrollbar">
+                    <template x-for="(item, index) in cart" :key="index">
+                        <div class="flex justify-between items-center border-b border-blue-200/50 last:border-0 py-2">
+                             <span x-text="item.name" class="font-medium"></span>
+                             <button @click="cart.splice(index, 1)" class="text-red-400 text-xs px-2" :disabled="sending">删除</button>
+                        </div>
+                    </template>
+                </div>
+
+                <button x-show="!orderSubmitted" @click="confirmSubmit" :disabled="sending" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold mb-3 disabled:opacity-50 flex justify-center items-center">
+                    <span x-show="!sending">确认发送到钉钉</span>
+                    <span x-show="sending" class="animate-pulse">发送中...</span>
+                </button>
+                
+                <button @click="reset" class="w-full border border-gray-200 text-gray-500 py-3 rounded-xl font-bold hover:bg-gray-50 transition">
+                    <span x-text="orderSubmitted ? '再来一单' : '关闭'"></span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function orderSystem() {
+            return {
+                loading: false, errorMsg: '', showModal: false, orderSubmitted: false, sending: false, cart: [],
+                
+                // GitHub 数据源
+                dataUrl: 'https://cdn.jsdelivr.net/gh/chenfei15161718-png/jiatingxiaoguan@main/menu.json', 
+                
+                categoryMap: {
+                    'meat': { title: '🥩 招牌硬菜', colorClass: 'border-orange-500 text-orange-800', btnBgClass: 'bg-orange-100 text-orange-600 hover:bg-orange-200' },
+                    'soup_veg': { title: '🍲 暖胃汤蔬', colorClass: 'border-green-500 text-green-800', btnBgClass: 'bg-green-100 text-green-600 hover:bg-green-200' },
+                    'snack': { title: '🥪 快乐碳水', colorClass: 'border-yellow-500 text-yellow-800', btnBgClass: 'bg-yellow-100 text-yellow-600 hover:bg-yellow-200' },
+                    'drink': { title: '🍺 微醺时刻', colorClass: 'border-blue-500 text-blue-800', btnBgClass: 'bg-blue-100 text-blue-600 hover:bg-blue-200' }
+                },
+                menu: [],
+
+                async init() { await this.fetchMenu(); },
+
+                async fetchMenu() {
+                    this.loading = true;
+                    try {
+                        const url = this.dataUrl + "?t=" + new Date().getTime();
+                        const response = await fetch(url);
+                        if (!response.ok) throw new Error(`网络错误: ${response.status}`);
+                        this.menu = await response.json();
+                    } catch (error) {
+                        console.error("加载失败:", error);
+                        this.errorMsg = "菜单加载失败，请检查网络或 GitHub 设置。";
+                    } finally { this.loading = false; }
+                },
+
+                addToCart(item) {
+                    this.cart.push(item);
+                    if (navigator.vibrate) navigator.vibrate(50);
+                },
+
+                submitOrder() {
+                    this.orderSubmitted = false;
+                    this.showModal = true;
+                },
+
+                confirmSubmit() {
+                    // ✅ 你的钉钉 Webhook 地址 (已自动填好)
+                    const webhook = "https://oapi.dingtalk.com/robot/send?access_token=598e9975e709716a0db2955b7e433e001cbbdcc28f9be135914f1d691db9862e";
+                    
+                    this.sending = true;
+                    const date = new Date().toLocaleString();
+                    const orderList = this.cart.map(i => `- ${i.name}`).join("\n");
+                    
+                    // 构造 Markdown 消息
+                    const ddMessage = {
+                        "msgtype": "markdown",
+                        "markdown": {
+                            // 必须包含关键词 "新订单"
+                            "title": "新订单通知", 
+                            "text": `### 🔔 收到新订单\n\n**⏰ 时间**: ${date}\n\n**🥘 菜单列表**:\n${orderList}\n\n> 来自: 家庭小馆点餐系统`
+                        }
+                    };
+
+                    // 使用 corsproxy.io 解决浏览器跨域问题
+                    const proxyUrl = "https://corsproxy.io/?"; 
+                    const targetUrl = proxyUrl + encodeURIComponent(webhook);
+
+                    fetch(targetUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(ddMessage)
+                    })
+                    .then(response => {
+                        console.log("发送成功");
+                        this.sending = false;
+                        this.orderSubmitted = true;
+                    })
+                    .catch(error => {
+                        console.error("发送失败:", error);
+                        this.sending = false;
+                        alert("发送失败，请检查钉钉关键词设置 (必须包含'新订单') 或网络。");
+                    });
+                },
+
+                reset() {
+                    if (this.orderSubmitted) { this.cart = []; }
+                    this.showModal = false;
+                    this.orderSubmitted = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
