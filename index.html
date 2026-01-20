@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 深夜家庭小馆 - 钉钉点单版</title>
+    <title>🏠 深夜家庭小馆 - 微信极速版</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
@@ -90,7 +90,7 @@
                     <span class="text-[10px] text-gray-400 uppercase tracking-wider">当前已选</span>
                     <span class="font-bold text-lg"><span x-text="cart.length"></span> 道菜</span>
                 </div>
-                <button @click="submitOrder" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-full transition shadow-lg btn-active text-sm">
+                <button @click="submitOrder" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 px-6 rounded-full transition shadow-lg btn-active text-sm">
                     下单 🚀
                 </button>
             </div>
@@ -100,22 +100,22 @@
             <div @click.outside="!sending && (showModal = false)" class="bg-white rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl relative overflow-hidden">
                 
                 <div x-show="orderSubmitted">
-                    <div class="mb-6 text-6xl animate-bounce">🤖</div>
-                    <h3 class="text-2xl font-bold mb-2 text-gray-800">钉钉通知已发！</h3>
-                    <p class="text-gray-500 mb-6 text-sm">请查看群聊消息。</p>
+                    <div class="mb-6 text-6xl animate-bounce">✅</div>
+                    <h3 class="text-2xl font-bold mb-2 text-gray-800">通知已发！</h3>
+                    <p class="text-gray-500 mb-6 text-sm">请查看你的微信消息。</p>
                 </div>
 
-                <div x-show="!orderSubmitted" class="text-left bg-blue-50 p-4 rounded-2xl text-sm text-gray-700 mb-6 max-h-60 overflow-y-auto border border-blue-100 hide-scrollbar">
+                <div x-show="!orderSubmitted" class="text-left bg-green-50 p-4 rounded-2xl text-sm text-gray-700 mb-6 max-h-60 overflow-y-auto border border-green-100 hide-scrollbar">
                     <template x-for="(item, index) in cart" :key="index">
-                        <div class="flex justify-between items-center border-b border-blue-200/50 last:border-0 py-2">
+                        <div class="flex justify-between items-center border-b border-green-200/50 last:border-0 py-2">
                              <span x-text="item.name" class="font-medium"></span>
                              <button @click="cart.splice(index, 1)" class="text-red-400 text-xs px-2" :disabled="sending">删除</button>
                         </div>
                     </template>
                 </div>
 
-                <button x-show="!orderSubmitted" @click="confirmSubmit" :disabled="sending" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold mb-3 disabled:opacity-50 flex justify-center items-center">
-                    <span x-show="!sending">确认发送到厨房</span>
+                <button x-show="!orderSubmitted" @click="confirmSubmit" :disabled="sending" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold mb-3 disabled:opacity-50 flex justify-center items-center">
+                    <span x-show="!sending">确认下单</span>
                     <span x-show="sending" class="animate-pulse">发送中...</span>
                 </button>
                 
@@ -132,7 +132,7 @@
             return {
                 loading: false, errorMsg: '', showModal: false, orderSubmitted: false, sending: false, cart: [],
                 
-                // 🔴 关键修改：不再使用 CDN，直接读取同目录下的 menu.json
+                // ✅ 依然读取你本地的菜单文件
                 dataUrl: './menu.json', 
                 
                 categoryMap: {
@@ -169,41 +169,58 @@
                 },
 
                 confirmSubmit() {
-                    // ✅ 你的钉钉 Webhook 地址 (已自动填好)
-                    const webhook = "https://oapi.dingtalk.com/robot/send?access_token=598e9975e709716a0db2955b7e433e001cbbdcc28f9be135914f1d691db9862e";
+                    // 🔴🔴🔴 请在这里填入你刚才获取的 WXPusher 信息 🔴🔴🔴
+                    const appToken = "AT_C0pBicpY4vb7G60EKIMh2z2z22xtdhor"; // 把你的 APP_TOKEN 填在这里
+                    const uid = "UID_V7QxpDDJq1q18nrcUSg2snXtJgVa";      // 把你的 UID 填在这里
                     
+                    if(appToken.includes("AT_C0pBicpY4vb7G60EKIMh2z2z22xtdhor")) {
+                        alert("请先在代码里填入你的 WXPusher Token！");
+                        return;
+                    }
+
                     this.sending = true;
                     const date = new Date().toLocaleString();
-                    const orderList = this.cart.map(i => `- ${i.name}`).join("\n");
+                    const orderList = this.cart.map(i => i.name).join("，");
                     
-                    // 构造 Markdown 消息
-                    const ddMessage = {
-                        "msgtype": "markdown",
-                        "markdown": {
-                            // 必须包含关键词 "新订单"
-                            "title": "新订单通知", 
-                            "text": `### 🔔 收到新订单\n\n**⏰ 时间**: ${date}\n\n**🥘 菜单列表**:\n${orderList}\n\n> 来自: 家庭小馆点餐系统`
-                        }
-                    };
+                    // WXPusher 接口地址 (国内直连)
+                    const url = "https://wxpusher.zjiecode.com/api/send/message";
+                    
+                    // 构造精美的 HTML 消息
+                    const content = `
+                        <h2 style="color:#e65100;">🍲 家庭小馆新订单</h2>
+                        <p style="font-size:12px;color:#666;">📅 时间：${date}</p>
+                        <hr style="border:none;border-top:1px dashed #ccc;margin:10px 0;">
+                        <p style="font-size:16px;font-weight:bold;">${orderList}</p>
+                        <p style="font-size:12px;color:#999;margin-top:20px;">来自：GitHub 网页版</p>
+                    `;
 
-                    // 使用 corsproxy.io 解决浏览器跨域问题
-                    const proxyUrl = "https://corsproxy.io/?"; 
-                    const targetUrl = proxyUrl + encodeURIComponent(webhook);
-
-                    fetch(targetUrl, {
+                    // 发送 POST 请求
+                    fetch(url, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(ddMessage)
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            appToken: appToken,
+                            content: content,
+                            contentType: 2, // 2表示HTML
+                            uids: [uid]
+                        })
                     })
-                    .then(response => {
-                        console.log("发送成功");
-                        this.sending = false;
-                        this.orderSubmitted = true;
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code === 1000) {
+                            console.log("发送成功");
+                            this.sending = false;
+                            this.orderSubmitted = true;
+                        } else {
+                            throw new Error(data.msg);
+                        }
                     })
                     .catch(error => {
                         console.error("发送失败:", error);
                         this.sending = false;
-                        alert("发送失败，请检查钉钉关键词设置 (必须包含'新订单') 或网络。");
+                        alert("发送失败，请检查网络或 Token 设置。");
                     });
                 },
 
@@ -217,4 +234,3 @@
     </script>
 </body>
 </html>
-
