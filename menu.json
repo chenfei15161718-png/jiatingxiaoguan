@@ -1,1 +1,115 @@
-
+[
+  {
+    "id": 1,
+    "name": "红烧排骨",
+    "category": "meat",
+    "desc": "软糯脱骨，浓油赤酱，米饭杀手。",
+    "image": "https://source.unsplash.com/400x400/?pork-ribs,cooked"
+  },
+  {
+    "id": 2,
+    "name": "苹果炖鸡",
+    "category": "meat",
+    "desc": "鲜甜果香与鸡肉的完美融合，清爽不腻。",
+    "image": "https://source.unsplash.com/400x400/?chicken,apple,soup"
+  },
+  {
+    "id": 3,
+    "name": "虫草土鸡汤",
+    "category": "soup_veg",
+    "desc": "慢火慢炖三小时，汤色金黄，滋补养生。",
+    "image": "https://source.unsplash.com/400x400/?chicken-soup"
+  },
+  {
+    "id": 4,
+    "name": "山药排骨汤",
+    "category": "soup_veg",
+    "desc": "山药软糯，排骨鲜香，健脾养胃。",
+    "image": "https://source.unsplash.com/400x400/?yam,soup"
+  },
+  {
+    "id": 5,
+    "name": "炒青菜",
+    "category": "soup_veg",
+    "desc": "大鱼大肉后的解腻神器，翠绿爽口。",
+    "image": "https://source.unsplash.com/400x400/?green-vegetables,stir-fry"
+  },
+  {
+    "id": 6,
+    "name": "辣椒炒肉",
+    "category": "meat",
+    "desc": "经典家常味，香辣过瘾，连吃三碗饭。",
+    "image": "https://source.unsplash.com/400x400/?spicy,pork,stir-fry"
+  },
+  {
+    "id": 7,
+    "name": "豆泡烧肉",
+    "category": "meat",
+    "desc": "豆泡吸满了肉汁，一咬爆浆，比肉还香。",
+    "image": "https://source.unsplash.com/400x400/?braised-pork,tofu"
+  },
+  {
+    "id": 8,
+    "name": "黄豆鸡爪",
+    "category": "meat",
+    "desc": "软烂入味，一抿就化，满满胶原蛋白。",
+    "image": "https://source.unsplash.com/400x400/?chicken-feet,braised"
+  },
+  {
+    "id": 9,
+    "name": "辣炒猪蹄",
+    "category": "meat",
+    "desc": "Q弹劲道，皮糯肉香，下酒必备。",
+    "image": "https://source.unsplash.com/400x400/?pig-trotter,spicy"
+  },
+  {
+    "id": 10,
+    "name": "牛排火锅",
+    "category": "meat",
+    "desc": "今晚的豪华重头戏，大块牛肉吃到爽。",
+    "image": "https://source.unsplash.com/400x400/?beef-hotpot"
+  },
+  {
+    "id": 11,
+    "name": "奥尔良烤鸡翅",
+    "category": "meat",
+    "desc": "外焦里嫩，鲜嫩多汁，没人能拒绝。",
+    "image": "https://source.unsplash.com/400x400/?roasted-chicken-wings"
+  },
+  {
+    "id": 12,
+    "name": "三明治",
+    "category": "snack",
+    "desc": "简单美味，料足味美，垫肚子首选。",
+    "image": "https://source.unsplash.com/400x400/?sandwich"
+  },
+  {
+    "id": 13,
+    "name": "难吃的烤面包",
+    "category": "snack",
+    "special": true,
+    "desc": "真的很干，可能烤焦了，勇士请点。",
+    "image": "https://source.unsplash.com/400x400/?burnt-toast"
+  },
+  {
+    "id": 14,
+    "name": "自制奶茶",
+    "category": "drink",
+    "desc": "精选茶叶与鲜奶，健康无添加，大厨特调。",
+    "image": "https://source.unsplash.com/600x800/?milk-tea"
+  },
+  {
+    "id": 15,
+    "name": "啤酒",
+    "category": "drink",
+    "desc": "冰镇快乐水 (成人版)，聚会必备。",
+    "image": "https://source.unsplash.com/600x800/?beer-glass"
+  },
+  {
+    "id": 16,
+    "name": "自制鸡尾酒",
+    "category": "drink",
+    "desc": "看心情调配，度数随机，这就是盲盒的快乐。",
+    "image": "https://source.unsplash.com/600x800/?cocktail"
+  }
+]
