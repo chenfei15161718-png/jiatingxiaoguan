@@ -91,7 +91,7 @@
                     <span class="font-bold text-lg"><span x-text="cart.length"></span> 道菜</span>
                 </div>
                 <button @click="submitOrder" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-6 rounded-full transition shadow-lg btn-active text-sm">
-                    钉钉下单 🚀
+                    下单 🚀
                 </button>
             </div>
         </div>
@@ -115,7 +115,7 @@
                 </div>
 
                 <button x-show="!orderSubmitted" @click="confirmSubmit" :disabled="sending" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold mb-3 disabled:opacity-50 flex justify-center items-center">
-                    <span x-show="!sending">确认发送到钉钉</span>
+                    <span x-show="!sending">确认发送到厨房</span>
                     <span x-show="sending" class="animate-pulse">发送中...</span>
                 </button>
                 
@@ -217,3 +217,4 @@
     </script>
 </body>
 </html>
+
