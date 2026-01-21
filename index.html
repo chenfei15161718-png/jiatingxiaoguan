@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 深夜家庭小馆</title>
+    <title>🏠 深夜家庭小馆 - 极速稳定版</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.staticfile.org/alpinejs/3.13.3/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
     
@@ -29,15 +29,17 @@
                     <h1 class="text-2xl font-bold text-gray-800 tracking-wide">👨‍🍳 欢迎光临我的厨房</h1>
                     <p class="text-xs text-gray-500 mt-1">今天不想做饭，只想做你的大厨</p>
                 </div>
-                <div x-show="loading" class="text-orange-500 text-sm font-bold animate-pulse">准备菜单中...</div>
+                <div x-show="loading" class="text-orange-500 text-sm font-bold animate-pulse">
+                    正在准备菜单...
+                </div>
             </div>
         </header>
 
         <main class="p-4 space-y-8">
             <div x-show="errorMsg" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl relative shadow-sm" style="display: none;">
-                <strong class="font-bold">出错了</strong>
+                <strong class="font-bold">加载慢了点...</strong>
                 <span class="block sm:inline" x-text="errorMsg"></span>
-                <button @click="location.reload()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">点我刷新</button>
+                <button @click="location.reload()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">点击刷新试试</button>
             </div>
 
             <template x-for="(categoryData, catKey) in categoryMap" :key="catKey">
@@ -105,6 +107,7 @@
 
         <div x-show="showModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" style="display: none;" x-transition.opacity>
             <div @click.outside="!sending && (showModal = false)" class="bg-white rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl relative overflow-hidden">
+                
                 <div x-show="orderSubmitted">
                     <div class="mb-6 text-6xl animate-bounce">✅</div>
                     <h3 class="text-2xl font-bold mb-2 text-gray-800">通知已发！</h3>
@@ -144,6 +147,7 @@
         function orderSystem() {
             return {
                 loading: false, errorMsg: '', showModal: false, orderSubmitted: false, sending: false, cart: [],
+                // ✅ 新增：存储下单人名字
                 customerName: '', 
                 dataUrl: './menu.json', 
                 
@@ -159,19 +163,22 @@
 
                 async fetchMenu() {
                     this.loading = true;
-                    // 延长到 8 秒超时
-                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("连接超时")), 8000));
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error("网络响应超时，请刷新")), 5000)
+                    );
 
                     try {
                         const url = this.dataUrl + "?t=" + new Date().getTime();
-                        const response = await Promise.race([fetch(url), timeoutPromise]);
+                        const response = await Promise.race([
+                            fetch(url),
+                            timeoutPromise
+                        ]);
                         
-                        if (!response.ok) throw new Error(`${response.status}`);
+                        if (!response.ok) throw new Error(`网络状态: ${response.status}`);
                         this.menu = await response.json();
                     } catch (error) {
                         console.error("加载失败:", error);
-                        // 如果失败，尝试读取 menu.json 的具体错误信息
-                        this.errorMsg = "菜单文件可能有格式错误，或者网络不通。";
+                        this.errorMsg = "网络有点堵（GitHub连接慢），建议切回 WiFi 或刷新页面试试。";
                     } finally { this.loading = false; }
                 },
 
@@ -186,6 +193,7 @@
                 },
 
                 confirmSubmit() {
+                    // ✅ 校验：必须填写名字
                     if (!this.customerName.trim()) {
                         alert("请填写您的称呼，方便大厨备餐！👨‍🍳");
                         return;
@@ -200,6 +208,7 @@
                     
                     const url = "https://wxpusher.zjiecode.com/api/send/message";
                     
+                    // ✅ 消息模板中加入名字
                     const content = `
                         <h2 style="color:#e65100;">🍲 家庭小馆新订单</h2>
                         <p style="font-size:12px;color:#666;">📅 时间：${date}</p>
@@ -237,7 +246,7 @@
                 reset() {
                     if (this.orderSubmitted) { 
                         this.cart = []; 
-                        this.customerName = ''; 
+                        this.customerName = ''; // 下单成功后清空名字
                     }
                     this.showModal = false;
                     this.orderSubmitted = false;
@@ -247,6 +256,3 @@
     </script>
 </body>
 </html>
-</body>
-</html>
-
