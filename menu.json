@@ -4,84 +4,84 @@
     "name": "红烧排骨",
     "category": "meat",
     "desc": "软糯脱骨，浓油赤酱，米饭杀手。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/1.jpg"
+    "image": "./1.jpg"
   },
   {
     "id": 2,
     "name": "苹果炖鸡",
     "category": "meat",
     "desc": "鲜甜果香与鸡肉的完美融合，清爽不腻。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/2.jpg"
+    "image": "./2.jpg"
   },
   {
     "id": 3,
     "name": "虫草土鸡汤",
     "category": "soup_veg",
     "desc": "慢火慢炖三小时，汤色金黄，滋补养生。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/3.jpg"
+    "image": "./3.jpg"
   },
   {
     "id": 4,
     "name": "山药排骨汤",
     "category": "soup_veg",
     "desc": "山药软糯，排骨鲜香，健脾养胃。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/4.jpg"
+    "image": "./4.jpg"
   },
   {
     "id": 5,
     "name": "炒青菜",
     "category": "soup_veg",
     "desc": "大鱼大肉后的解腻神器，翠绿爽口。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/5.jpg"
+    "image": "./5.jpg"
   },
   {
     "id": 6,
     "name": "辣椒炒肉",
     "category": "meat",
     "desc": "经典家常味，香辣过瘾，连吃三碗饭。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/6.jpg"
+    "image": "./6.jpg"
   },
   {
     "id": 7,
     "name": "豆泡烧肉",
     "category": "meat",
     "desc": "豆泡吸满了肉汁，一咬爆浆，比肉还香。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/7.jpg"
+    "image": "./7.jpg"
   },
   {
     "id": 8,
     "name": "黄豆鸡爪",
     "category": "meat",
     "desc": "软烂入味，一抿就化，满满胶原蛋白。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/8.jpg"
+    "image": "./8.jpg"
   },
   {
     "id": 9,
     "name": "辣炒猪蹄",
     "category": "meat",
     "desc": "Q弹劲道，皮糯肉香，下酒必备。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/9.jpg"
+    "image": "./9.jpg"
   },
   {
     "id": 10,
     "name": "牛排火锅",
     "category": "meat",
     "desc": "今晚的豪华重头戏，大块牛肉吃到爽。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/10.jpg"
+    "image": "./10.jpg"
   },
   {
     "id": 11,
     "name": "奥尔良烤鸡翅",
     "category": "meat",
     "desc": "外焦里嫩，鲜嫩多汁，没人能拒绝。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/11.jpg"
+    "image": "./11.jpg"
   },
   {
     "id": 12,
     "name": "三明治",
     "category": "snack",
     "desc": "简单美味，料足味美，垫肚子首选。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/12.jpg"
+    "image": "./12.jpg"
   },
   {
     "id": 13,
@@ -89,27 +89,168 @@
     "category": "snack",
     "special": true,
     "desc": "真的很干，可能烤焦了，勇士请点。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/13.jpg"
+    "image": "./13.jpg"
   },
   {
     "id": 14,
     "name": "自制奶茶",
     "category": "drink",
     "desc": "精选茶叶与鲜奶，健康无添加，大厨特调。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/14.jpg"
+    "image": "./14.jpg"
   },
   {
     "id": 15,
     "name": "啤酒",
     "category": "drink",
     "desc": "冰镇快乐水 (成人版)，聚会必备。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/15.jpg"
+    "image": "./15.jpg"
   },
   {
     "id": 16,
     "name": "自制鸡尾酒",
     "category": "drink",
     "desc": "看心情调配，度数随机，这就是盲盒的快乐。",
-    "image": "https://chenfei15161718-png.github.io/jiatingxiaoguan/16.jpg"
+    "image": "./16.jpg"
+  },
+  {
+    "id": 17,
+    "name": "蔬菜沙拉",
+    "category": "soup_veg",
+    "desc": "清爽低脂，健康轻食，减脂期首选。",
+    "image": "./17.jpg"
+  },
+  {
+    "id": 18,
+    "name": "凉拌鸡胸肉",
+    "category": "meat",
+    "desc": "高蛋白低脂肪，酸辣开胃，嫩滑不柴。",
+    "image": "./18.jpg"
+  },
+  {
+    "id": 19,
+    "name": "酸辣椒炒鸭胗",
+    "category": "meat",
+    "desc": "酸辣爽脆，口感一绝，超级下饭。",
+    "image": "./19.jpg"
+  },
+  {
+    "id": 20,
+    "name": "清炒花甲",
+    "category": "meat",
+    "desc": "鲜味十足，肉质饱满，连汤汁都鲜甜。",
+    "image": "./20.jpg"
+  },
+  {
+    "id": 21,
+    "name": "荷包蛋烧黄丫头",
+    "category": "meat",
+    "desc": "鱼鲜蛋香，汤汁浓郁，一口入魂。",
+    "image": "./21.jpg"
+  },
+  {
+    "id": 22,
+    "name": "小龙虾",
+    "category": "meat",
+    "special": true,
+    "desc": "季节限定！鲜香麻辣，夜宵灵魂，嗦指回味。",
+    "image": "./22.jpg"
+  },
+  {
+    "id": 23,
+    "name": "砂锅海鲜煲",
+    "category": "meat",
+    "desc": "食材丰富，咕嘟咕嘟，暖心又暖胃。",
+    "image": "./23.jpg"
+  },
+  {
+    "id": 24,
+    "name": "椰子鸡",
+    "category": "meat",
+    "desc": "椰水清甜，鸡肉嫩滑，蘸料是灵魂。",
+    "image": "./24.jpg"
+  },
+  {
+    "id": 25,
+    "name": "烤蛋挞",
+    "category": "snack",
+    "desc": "外酥里嫩，奶香浓郁，刚出炉最好吃。",
+    "image": "./25.jpg"
+  },
+  {
+    "id": 26,
+    "name": "水果拼盘",
+    "category": "snack",
+    "desc": "时令鲜果，色彩缤纷，饭后解腻神器。",
+    "image": "./26.jpg"
+  },
+  {
+    "id": 27,
+    "name": "小布几",
+    "category": "snack",
+    "desc": "Q弹爽滑，甜蜜冰凉，小朋友的最爱。",
+    "image": "./27.jpg"
+  },
+  {
+    "id": 28,
+    "name": "红烧土豆",
+    "category": "soup_veg",
+    "desc": "软糯入味，口感绵密，简单的美味。",
+    "image": "./28.jpg"
+  },
+  {
+    "id": 29,
+    "name": "小炒牛肉",
+    "category": "meat",
+    "desc": "香菜与牛肉的碰撞，鲜辣滑嫩，镬气十足。",
+    "image": "./29.jpg"
+  },
+  {
+    "id": 30,
+    "name": "自制烤肉",
+    "category": "meat",
+    "desc": "家庭版BBQ，滋滋冒油，大口吃肉的快乐。",
+    "image": "./30.jpg"
+  },
+  {
+    "id": 31,
+    "name": "白灼秋葵",
+    "category": "soup_veg",
+    "desc": "保留原味，清脆爽口，蘸点酱油就好吃。",
+    "image": "./31.jpg"
+  },
+  {
+    "id": 32,
+    "name": "清蒸鲈鱼",
+    "category": "meat",
+    "desc": "鱼肉洁白，鲜嫩多汁，蒸鱼豉油激发鲜味。",
+    "image": "./32.jpg"
+  },
+  {
+    "id": 33,
+    "name": "水蒸蛋",
+    "category": "soup_veg",
+    "desc": "如布丁般嫩滑，入口即化，老少皆宜。",
+    "image": "./33.jpg"
+  },
+  {
+    "id": 34,
+    "name": "瓦罐汤",
+    "category": "soup_veg",
+    "desc": "民间传统，原汁原味，锁住营养。",
+    "image": "./34.jpg"
+  },
+  {
+    "id": 35,
+    "name": "炒包菜",
+    "category": "soup_veg",
+    "desc": "大火爆炒，清脆回甜，手撕才更有味。",
+    "image": "./35.jpg"
+  },
+  {
+    "id": 36,
+    "name": "妈妈牌香肠",
+    "category": "meat",
+    "desc": "独家秘制配方，肥瘦相间，是家的味道。",
+    "image": "./36.jpg"
   }
 ]
