@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏠 深夜家庭小馆</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.staticfile.org/alpinejs/3.13.3/cdn.min.js"></script>
-    <script src="https://cdn.staticfile.org/tailwindcss/3.3.5/browser.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
     
@@ -35,7 +35,7 @@
 
         <main class="p-4 space-y-8">
             <div x-show="errorMsg" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-2xl relative shadow-sm" style="display: none;">
-                <strong class="font-bold">网络有点堵</strong>
+                <strong class="font-bold">出错了</strong>
                 <span class="block sm:inline" x-text="errorMsg"></span>
                 <button @click="location.reload()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-xs">点我刷新</button>
             </div>
@@ -144,7 +144,6 @@
         function orderSystem() {
             return {
                 loading: false, errorMsg: '', showModal: false, orderSubmitted: false, sending: false, cart: [],
-                // ✅ 新增：存储下单人名字
                 customerName: '', 
                 dataUrl: './menu.json', 
                 
@@ -160,7 +159,8 @@
 
                 async fetchMenu() {
                     this.loading = true;
-                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("连接超时")), 5000));
+                    // 延长到 8 秒超时
+                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("连接超时")), 8000));
 
                     try {
                         const url = this.dataUrl + "?t=" + new Date().getTime();
@@ -170,7 +170,8 @@
                         this.menu = await response.json();
                     } catch (error) {
                         console.error("加载失败:", error);
-                        this.errorMsg = "网络有点卡，建议刷新或用浏览器打开。";
+                        // 如果失败，尝试读取 menu.json 的具体错误信息
+                        this.errorMsg = "菜单文件可能有格式错误，或者网络不通。";
                     } finally { this.loading = false; }
                 },
 
@@ -185,7 +186,6 @@
                 },
 
                 confirmSubmit() {
-                    // ✅ 校验：必须填写名字
                     if (!this.customerName.trim()) {
                         alert("请填写您的称呼，方便大厨备餐！👨‍🍳");
                         return;
@@ -200,7 +200,6 @@
                     
                     const url = "https://wxpusher.zjiecode.com/api/send/message";
                     
-                    // ✅ 消息模板中加入名字
                     const content = `
                         <h2 style="color:#e65100;">🍲 家庭小馆新订单</h2>
                         <p style="font-size:12px;color:#666;">📅 时间：${date}</p>
@@ -225,7 +224,6 @@
                         if (data.code === 1000) {
                             this.sending = false;
                             this.orderSubmitted = true;
-                            // 发送成功后清空名字，方便下一位（或者保留，看你习惯，目前设为不清空）
                         } else {
                             throw new Error(data.msg);
                         }
@@ -239,7 +237,7 @@
                 reset() {
                     if (this.orderSubmitted) { 
                         this.cart = []; 
-                        this.customerName = ''; // 下单成功后重置名字
+                        this.customerName = ''; 
                     }
                     this.showModal = false;
                     this.orderSubmitted = false;
@@ -249,3 +247,6 @@
     </script>
 </body>
 </html>
+</body>
+</html>
+
